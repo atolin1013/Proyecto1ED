@@ -2,12 +2,12 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="Proyecto1ED" />
+		<Option title="Proyecto2ED" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin/Debug/Proyecto1ED" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Debug/Proyecto2ED" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -17,7 +17,7 @@
 				</Compiler>
 			</Target>
 			<Target title="Release">
-				<Option output="bin/Release/Proyecto1ED" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Release/Proyecto2ED" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -34,6 +34,7 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="include/AVLTree.h" />
 		<Unit filename="include/ArrayList.h" />
 		<Unit filename="include/BSTDictionary.h" />
 		<Unit filename="include/BSTNode.h" />
@@ -43,12 +44,15 @@
 		<Unit filename="include/Dictionary.h" />
 		<Unit filename="include/HashTable.h" />
 		<Unit filename="include/KVPair.h" />
+		<Unit filename="include/LinkedList.h" />
 		<Unit filename="include/List.h" />
+		<Unit filename="include/Node.h" />
+		<Unit filename="include/SortedArrayDictionary.h" />
+		<Unit filename="include/SortedArrayList.h" />
 		<Unit filename="include/Trie.h" />
 		<Unit filename="include/TrieNode.h" />
+		<Unit filename="include/UnsortedArrayDictionary.h" />
 		<Unit filename="main.cpp" />
-		<Extensions>
-			<lib_finder disable_auto="1" />
-		</Extensions>
+		<Extensions />
 	</Project>
 </CodeBlocks_project_file>

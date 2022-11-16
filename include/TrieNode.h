@@ -3,12 +3,14 @@
 
 #include "BSTDictionary.h"
 #include "List.h"
+#include "LinkedList.h"
 
 class TrieNode {
 public:
     int prefixCount;
     bool isFinal;
     Dictionary<char, TrieNode*> *children;
+    List<int>* lines = new LinkedList<int>();
 
     TrieNode() {
         prefixCount = 0;

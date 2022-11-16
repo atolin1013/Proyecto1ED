@@ -17,9 +17,23 @@ protected:
     int size;
     int pos;
 
-    void checkFullList() {
-        if (size == max)
-            throw runtime_error("List is full.");
+    bool checkFullList() {
+        return(size == max);
+    }
+
+private:
+    void expand(){
+        E* expandedElements = new E[max * 2];
+        E* provisional;
+        pos = 0;
+        while(pos < size){
+            expandedElements[pos] = elements[pos];
+            pos++;
+        }
+        provisional = elements;
+        elements = expandedElements;
+        max *= 2;
+        delete provisional;
     }
 
 public:
@@ -34,15 +48,18 @@ public:
     ~ArrayList() {
         delete [] elements;
     }
+
     void insert(E element) {
-        checkFullList();
+        if(checkFullList())
+            expand();
         for (int i = size; i > pos; i--)
             elements[i] = elements[i - 1];
         elements[pos] = element;
         size++;
     }
     void append(E element) {
-        checkFullList();
+        if(checkFullList())
+            expand();
         elements[size] = element;
         size++;
     }
@@ -106,13 +123,97 @@ public:
             cout << getElement() << " ";
         cout << "]" << endl;
     }
-    bool contains(E element) {
+    int indexOf(E element){
+        /**
+Dice la posición de un elemento en una lista. Recibe un elemento a buscar dentro de la lista, si
+se encuentra, retorna la posición donde fue encontrado. Si el elemento buscado se encuentra
+repetido, debe retornar la posición de la primera ocurrencia. Si no se encuentra, retorna el
+valor -1. La posición actual de la lista no debe cambiar después de invocar este método.
+
+        **/
+        int pl = getPos();
         goToStart();
-        while (!atEnd()) {
-            if (element == getElement())
-                return true;
-            next();
+        while(!atEnd()){
+            if(getElement() == element){
+                goToPos(pl);
+                return(getPos());
+            }
+            else
+                next();
         }
+        goToPos(pl);
+        return -1;
+    }
+    bool contains(E element){
+        /**
+Dice si una lista contiene un elemento. Recibe un elemento a buscar dentro de la lista, si lo
+encuentra, retorna true, de otro modo retorna false. La posición actual de la lista no debe
+cambiar después de invocar este elemento.
+        **/
+        int pl = getPos();
+        goToStart();
+        while(!atEnd()){
+            if(getElement() == element){
+                goToPos(pl);
+                return true;
+            } else {
+                next();
+            }
+        }
+        goToPos(pl);
+        return false;
+    }
+    void extend(List<E>* L){
+        /**
+Método que agrega al final de la lista actual los elementos de otra lista enviada por parámetro.
+Recibe por parámetro un puntero a un objeto tipo List (puede ser cualquiera de las clases
+derivadas: ArrayList, LinkedList o DLinkedList). Después de invocar este método, todos los
+elementos de la lista L enviada por parámetro deben agregarse al final de la lista actual, en el
+mismo orden en que se encuentran en la lista L. Al igual que los métodos insert y append, la
+capacidad de la lista debe aumentar mediante el método privado expand en caso de que se
+alcance la capacidad máxima. La posición actual de la lista actual y de la lista enviada por
+parámetro no debe ser alterada después de invocar este método.
+        **/
+        int p = L->getPos();
+        L->goToStart();
+        while(!L->atEnd()){
+            if(checkFullList()){
+                expand();
+            }
+            append(L->getElement());
+            L->next();
+        }
+        L->goToPos(p);
+
+    }
+    bool equals(List<E>* L){
+        /**
+Método que dice si la lista actual contiene los mismos elementos y en el mismo orden que la
+lista enviada por parámetro. Recibe por parámetro un puntero a un objeto tipo List. El método
+debe comprobar si la cantidad de elementos y el orden de estos es idéntico en ambas listas. De
+ser así, el método retorna true, de otro modo, false. La posición actual de ambas listas no debe
+ser alterada después de invocar este método.
+        **/
+        int Ap = getPos();
+        int Lp = L->getPos();
+        goToStart();
+        L -> goToStart();
+        while(!atEnd() && !L->atEnd()){
+            if (getElement() != L->getElement()){
+                goToPos(Ap);
+                L->goToPos(Lp);
+                return false;
+            } else {
+                next(); L->next();
+            }
+        }
+        if(atEnd() && L->atEnd()){
+            goToPos(Ap);
+            L->goToPos(Lp);
+            return true;
+        }
+        goToPos(Ap);
+        L->goToPos(Lp);
         return false;
     }
 };

@@ -105,52 +105,101 @@ public:
     int getSize() {
         return size;
     }
+    int indexOf(E element){
+        /**
+Dice la posición de un elemento en una lista. Recibe un elemento a buscar dentro de la lista, si
+se encuentra, retorna la posición donde fue encontrado. Si el elemento buscado se encuentra
+repetido, debe retornar la posición de la primera ocurrencia. Si no se encuentra, retorna el
+valor -1. La posición actual de la lista no debe cambiar después de invocar este método.
+
+        **/
+        int pl = getPos();
+        goToStart();
+        while(!atEnd()){
+            if(getElement() == element){
+                goToPos(pl);
+                return(getPos());
+            }
+            else
+                next();
+        }
+        goToPos(pl);
+        return -1;
+    }
+    bool contains(E element){
+        /**
+Dice si una lista contiene un elemento. Recibe un elemento a buscar dentro de la lista, si lo
+encuentra, retorna true, de otro modo retorna false. La posición actual de la lista no debe
+cambiar después de invocar este elemento.
+        **/
+        int pl = getPos();
+        goToStart();
+        while(!atEnd()){
+            if(getElement() == element){
+                goToPos(pl);
+                return true;
+            } else {
+                next();
+            }
+        }
+        goToPos(pl);
+        return false;
+    }
+    void extend(List<E>* L){
+        /**
+Método que agrega al final de la lista actual los elementos de otra lista enviada por parámetro.
+Recibe por parámetro un puntero a un objeto tipo List (puede ser cualquiera de las clases
+derivadas: ArrayList, LinkedList o DLinkedList). Después de invocar este método, todos los
+elementos de la lista L enviada por parámetro deben agregarse al final de la lista actual, en el
+mismo orden en que se encuentran en la lista L. Al igual que los métodos insert y append, la
+capacidad de la lista debe aumentar mediante el método privado expand en caso de que se
+alcance la capacidad máxima. La posición actual de la lista actual y de la lista enviada por
+parámetro no debe ser alterada después de invocar este método.
+        **/
+        int p = L->getPos();
+        L->goToStart();
+        while(!L->atEnd()){
+            append(L->getElement());
+            L->next();
+        }
+        L->goToPos(p);
+
+    }
+    bool equals(List<E>* L){
+        /**
+Método que dice si la lista actual contiene los mismos elementos y en el mismo orden que la
+lista enviada por parámetro. Recibe por parámetro un puntero a un objeto tipo List. El método
+debe comprobar si la cantidad de elementos y el orden de estos es idéntico en ambas listas. De
+ser así, el método retorna true, de otro modo, false. La posición actual de ambas listas no debe
+ser alterada después de invocar este método.
+        **/
+        int Ap = getPos();
+        int Lp = L->getPos();
+        goToStart();
+        L -> goToStart();
+        while(!atEnd() && !L->atEnd()){
+            if (getElement() != L->getElement()){
+                goToPos(Ap);
+                L->goToPos(Lp);
+                return false;
+            } else {
+                next(); L->next();
+            }
+        }
+        if(atEnd() && L->atEnd()){
+            goToPos(Ap);
+            L->goToPos(Lp);
+            return true;
+        }
+        goToPos(Ap);
+        L->goToPos(Lp);
+        return false;
+    }
     void print() {
         cout << "[ ";
         for (goToStart(); !atEnd(); next())
             cout << getElement() << " ";
         cout << "]" << endl;
-    }
-    int indexOf(E element) {
-        int pos = 0;
-        DNode<E> *temp = head->next;
-        while (temp != tail) {
-            if (temp->element == element)
-                return pos;
-            temp = temp->next;
-            pos++;
-        }
-        return -1;
-    }
-    bool contains(E element) {
-        return indexOf(element) != -1;
-    }
-    void extend(List<E> *L) {
-        int pos = L->getPos();
-        L->goToStart();
-        while (!L->atEnd()) {
-            append(L->getElement());
-            L->next();
-        }
-        L->goToPos(pos);
-    }
-    bool equals(List<E> *L) {
-        if (size != L->getSize())
-            return false;
-        DNode<E> *oldCurrent = current;
-        int pos = L->getPos();
-        goToStart();
-        L->goToStart();
-        while (!L->atEnd()) {
-            if (getElement() != L->getElement()) {
-                current = oldCurrent;
-                L->goToPos(pos);
-                return false;
-            }
-        }
-        current = oldCurrent;
-        L->goToPos(pos);
-        return true;
     }
 };
 

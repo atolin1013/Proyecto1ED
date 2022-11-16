@@ -1,0 +1,62 @@
+# depslib dependency file v1.0
+1668590331 source:c:\users\marvin\desktop\cosas de antony\progra 0mg\estructura de datos\proyecto2ed\main.cpp
+	<iostream>
+	<fstream>
+	<cstdint>
+	<chrono>
+	"List.h"
+	"Trie.h"
+	"ArrayList.h"
+
+1668589893 c:\users\marvin\desktop\cosas de antony\progra 0mg\estructura de datos\proyecto2ed\include\arraylist.h
+	"List.h"
+	<stdexcept>
+
+1667732516 c:\users\marvin\desktop\cosas de antony\progra 0mg\estructura de datos\proyecto2ed\include\list.h
+
+1668590525 c:\users\marvin\desktop\cosas de antony\progra 0mg\estructura de datos\proyecto2ed\include\dlinkedlist.h
+	"List.h"
+	"DNode.h"
+	<stdexcept>
+	<iostream>
+
+1661533532 c:\users\marvin\desktop\cosas de antony\progra 0mg\estructura de datos\proyecto2ed\include\dnode.h
+
+1668590630 c:\users\marvin\desktop\cosas de antony\progra 0mg\estructura de datos\proyecto2ed\include\trie.h
+	"TrieNode.h"
+	<string>
+	<iostream>
+	<stdexcept>
+
+1668590101 c:\users\marvin\desktop\cosas de antony\progra 0mg\estructura de datos\proyecto2ed\include\trienode.h
+	"BSTDictionary.h"
+	"List.h"
+	"LinkedList.h"
+
+1667732516 c:\users\marvin\desktop\cosas de antony\progra 0mg\estructura de datos\proyecto2ed\include\bstdictionary.h
+	"Dictionary.h"
+	"BSTree.h"
+	"KVPair.h"
+	"DLinkedList.h"
+	<stdexcept>
+
+1667732516 c:\users\marvin\desktop\cosas de antony\progra 0mg\estructura de datos\proyecto2ed\include\dictionary.h
+
+1667732516 c:\users\marvin\desktop\cosas de antony\progra 0mg\estructura de datos\proyecto2ed\include\bstree.h
+	<stdexcept>
+	"BSTNode.h"
+	"DLinkedList.h"
+
+1667732516 c:\users\marvin\desktop\cosas de antony\progra 0mg\estructura de datos\proyecto2ed\include\bstnode.h
+
+1663777072 c:\users\marvin\desktop\cosas de antony\progra 0mg\estructura de datos\proyecto2ed\include\kvpair.h
+	<iostream>
+
+1667732513 c:\users\marvin\desktop\cosas de antony\progra 0mg\estructura de datos\proyecto2ed\include\linkedlist.h
+	"List.h"
+	"Node.h"
+	<stdexcept>
+	<iostream>
+
+1667732513 c:\users\marvin\desktop\cosas de antony\progra 0mg\estructura de datos\proyecto2ed\include\node.h
+
