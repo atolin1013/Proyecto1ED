@@ -1,0 +1,63 @@
+# depslib dependency file v1.0
+1668636249 source:c:\users\marvin\desktop\cosas de antony\progra 0mg\estructura de datos\proyecto1ed\main.cpp
+	<iostream>
+	<fstream>
+	<cstdint>
+	<time.h>
+	<chrono>
+	"List.h"
+	"Trie.h"
+	"ArrayList.h"
+
+1667732516 c:\users\marvin\desktop\cosas de antony\progra 0mg\estructura de datos\proyecto1ed\include\list.h
+
+1668637391 c:\users\marvin\desktop\cosas de antony\progra 0mg\estructura de datos\proyecto1ed\include\trie.h
+	"TrieNode.h"
+	<string>
+	<iostream>
+	<stdexcept>
+
+1668590101 c:\users\marvin\desktop\cosas de antony\progra 0mg\estructura de datos\proyecto1ed\include\trienode.h
+	"BSTDictionary.h"
+	"List.h"
+	"LinkedList.h"
+
+1667732516 c:\users\marvin\desktop\cosas de antony\progra 0mg\estructura de datos\proyecto1ed\include\bstdictionary.h
+	"Dictionary.h"
+	"BSTree.h"
+	"KVPair.h"
+	"DLinkedList.h"
+	<stdexcept>
+
+1667732516 c:\users\marvin\desktop\cosas de antony\progra 0mg\estructura de datos\proyecto1ed\include\dictionary.h
+
+1667732516 c:\users\marvin\desktop\cosas de antony\progra 0mg\estructura de datos\proyecto1ed\include\bstree.h
+	<stdexcept>
+	"BSTNode.h"
+	"DLinkedList.h"
+
+1667732516 c:\users\marvin\desktop\cosas de antony\progra 0mg\estructura de datos\proyecto1ed\include\bstnode.h
+
+1668590525 c:\users\marvin\desktop\cosas de antony\progra 0mg\estructura de datos\proyecto1ed\include\dlinkedlist.h
+	"List.h"
+	"DNode.h"
+	<stdexcept>
+	<iostream>
+
+1661533532 c:\users\marvin\desktop\cosas de antony\progra 0mg\estructura de datos\proyecto1ed\include\dnode.h
+
+1663777072 c:\users\marvin\desktop\cosas de antony\progra 0mg\estructura de datos\proyecto1ed\include\kvpair.h
+	<iostream>
+
+1667732513 c:\users\marvin\desktop\cosas de antony\progra 0mg\estructura de datos\proyecto1ed\include\linkedlist.h
+	"List.h"
+	"Node.h"
+	<stdexcept>
+	<iostream>
+
+1667732513 c:\users\marvin\desktop\cosas de antony\progra 0mg\estructura de datos\proyecto1ed\include\node.h
+
+1668589893 c:\users\marvin\desktop\cosas de antony\progra 0mg\estructura de datos\proyecto1ed\include\arraylist.h
+	"List.h"
+	<stdexcept>
+

@@ -49,6 +49,18 @@ private:
         }
         delete children;
     }
+    void printAux(TrieNode *current, string prefix) {
+        if (current->isFinal){
+            cout << prefix << ": " << current->lines->getSize() << endl;
+        }
+        List<char> *children = current->getChildren();
+        for (children->goToStart(); !children->atEnd(); children->next()) {
+            char c = children->getElement();
+            string newPrefix = prefix + c;
+            printAux(current->getChild(c), newPrefix);
+        }
+        delete children;
+    }
     bool containsWordAux(string word, int line) {
         TrieNode *current = findNode(word);
         if (current == nullptr)
@@ -131,6 +143,12 @@ public:
     }
     int getSize() {
         return root->prefixCount;
+    }
+    void printD() {
+        TrieNode *current = findNode("");
+        if (current != nullptr) {
+            printAux(current, "");
+        }
     }
     void print() {
         List<string> *words = getMatches("");
