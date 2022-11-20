@@ -3,10 +3,12 @@
 #include <cstdint>
 #include <time.h>
 #include <chrono>
+#include <windows.h>
 
 #include "List.h"
 #include "Trie.h"
 #include "ArrayList.h"
+#include "AVLTreeDictionary.h"
 
 using namespace std;
 using namespace std::chrono;
@@ -125,6 +127,8 @@ void cargar(ArrayList<string>* arrayDestino, Trie* arbolDestino, string archivo)
     ifstream myfile(archivo);
     arrayDestino->goToStart();
     while(getline(myfile, line)){
+        if(arrayDestino->checkFullList())
+            throw runtime_error("Array size exceeded");
         arrayDestino->append(line);
         string palabra = "";
         char letra;
@@ -143,11 +147,15 @@ void cargar(ArrayList<string>* arrayDestino, Trie* arbolDestino, string archivo)
 }
 
 int main() {
+    setlocale(LC_ALL, "spanish");
+    SetConsoleCP(1252);
+    SetConsoleOutputCP(1252);
     string archivos[] = {
-        "C:\\Users\\Marvin\\Desktop\\Cosas de Antony\\Progra 0mg\\Estructura de datos\\PADRON_COMPLETO.txt",
-        "el_quijote.txt", "bible.txt", "lotr.txt", "lmao.txt", "novela.txt", "big.txt"
+        "C:\\Users\\Marvin\\Desktop\\Cosas de Antony\\Progra 0mg\\Estructura de datos\\PADRON_COMPLETO.txt", /*0*/
+        "el_quijote.txt", "bible.txt", "lotr.txt", "lmao.txt", "novela.txt", "big.txt", /*6*/
+        "loremIpsum.txt" /*7*/
         };
-    int index = 6;
+    int index = 1;
 //    for(int pLine = 100; pLine == 100; pLine = pLine + 1000){
 //        basePrueba(pLine);
 //    }
@@ -156,12 +164,23 @@ int main() {
     string archivo = "C:\\Users\\Marvin\\Desktop\\Cosas de Antony\\Progra 0mg\\Estructura de datos\\PADRON_COMPLETO.txt";
     Trie* arbol = new Trie();
     clock_t start = clock();
+    ArrayList<string>* lista;
 
-    ArrayList<string>* lista = new ArrayList<string>(getArraySize(archivos[index], 2500));
-    cargar(lista, arbol, archivos[index]);
+    try{
+        lista = new ArrayList<string>(getArraySize(archivos[index], 2500));
+        cargar(lista, arbol, archivos[index]);
+    } catch(runtime_error&) {
+        delete lista;
+        lista = new ArrayList<string>(getArraySizeAux(archivos[index]));
+        cargar(lista, arbol, archivos[index]);
+    };
 
     clock_t stop = clock();
-    arbol->printD();
+//    arbol->printD();
+    cout << (float) (stop - start) / CLOCKS_PER_SEC << endl;
+    start = clock();
+    arbol->getWordMatches("zurdo", lista)->print();
+    stop = clock();
     cout << (float) (stop - start) / CLOCKS_PER_SEC << endl;
 //    lista->goToStart();
 //    for(int i = 0; i < 100; i++){

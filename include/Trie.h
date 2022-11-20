@@ -2,6 +2,7 @@
 #define TRIE_H
 
 #include "TrieNode.h"
+#include "ArrayList.h"
 #include <string>
 #include <iostream>
 #include <stdexcept>
@@ -38,14 +39,25 @@ private:
         delete children;
         delete current;
     }
-    void getMatchesAux(TrieNode *current, string prefix, List<string> *result) {
-        if (current->isFinal)
-            result->append(prefix);
+    void getMatchesAux(TrieNode *current, string prefix, List<string> *result, List<string> *base) {
+        string prefixResult = "\n\n";
+        if (current->isFinal){
+            prefixResult += prefix;
+            prefixResult += ": ";
+            prefixResult += to_string(current->lines->getSize());
+            for(int i = 0; i < current->lines->getSize(); i++){
+                current->lines->goToPos(i);
+                base->goToPos(current->lines->getElement());
+                prefixResult += "\nLínea " + to_string(current->lines->getElement()) + ": " + base->getElement();
+            }
+            result->append(prefixResult);
+        }
+
         List<char> *children = current->getChildren();
         for (children->goToStart(); !children->atEnd(); children->next()) {
             char c = children->getElement();
             string newPrefix = prefix + c;
-            getMatchesAux(current->getChild(c), newPrefix, result);
+            getMatchesAux(current->getChild(c), newPrefix, result, base);
         }
         delete children;
     }
@@ -65,8 +77,10 @@ private:
         TrieNode *current = findNode(word);
         if (current == nullptr)
             return false;
-        if(current->isFinal)
+        if(current->isFinal){
+
             current->lines->append(line);
+        }
         else
             return false;
         return true;
@@ -133,12 +147,31 @@ public:
         clearAux(root);
         root = new TrieNode();
     }
-    List<string>* getMatches(string prefix) {
+    List<string>* getMatches(string prefix, List<string> *base) {
         List<string> *result = new DLinkedList<string>();
         TrieNode *current = findNode(prefix);
         if (current != nullptr) {
-            getMatchesAux(current, prefix, result);
+            getMatchesAux(current, prefix, result, base);
         }
+        return result;
+    }
+    List<string>* getWordMatches(string word, List<string> *base) {
+        List<string> *result = new DLinkedList<string>();
+        TrieNode* wordFound;
+        string rLine = "";
+        wordFound = findNode(word);
+        if(wordFound == nullptr || !wordFound->isFinal)
+            return result;
+
+        result->append("\n");
+        for(wordFound->lines->goToStart(); !wordFound->lines->atEnd(); wordFound->lines->next()){
+                base->goToPos(wordFound->lines->getElement());
+                rLine += "Línea " +to_string(wordFound->lines->getElement()) + ": "
+                + base->getElement() + "\n";
+                result->append(rLine);
+                rLine = "";
+        }
+
         return result;
     }
     int getSize() {
@@ -150,8 +183,8 @@ public:
             printAux(current, "");
         }
     }
-    void print() {
-        List<string> *words = getMatches("");
+    void print(List<string> *base) {
+        List<string> *words = getMatches("", base);
         words->print();
         delete words;
     }

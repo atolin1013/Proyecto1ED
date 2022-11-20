@@ -17,9 +17,7 @@ protected:
     int size;
     int pos;
 
-    bool checkFullList() {
-        return(size == max);
-    }
+
 
 private:
     void expand(){
@@ -37,6 +35,9 @@ private:
     }
 
 public:
+    bool checkFullList() {
+        return(size == max);
+    }
     ArrayList(int max = DEFAULT_MAX_SIZE) {
         if (max < 1)
             throw runtime_error("Invalid max size.");
