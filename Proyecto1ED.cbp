@@ -35,6 +35,7 @@
 			<Add option="-fexceptions" />
 		</Compiler>
 		<Unit filename="include/AVLTree.h" />
+		<Unit filename="include/AVLTreeDictionary.h" />
 		<Unit filename="include/ArrayList.h" />
 		<Unit filename="include/BSTDictionary.h" />
 		<Unit filename="include/BSTNode.h" />
@@ -46,6 +47,7 @@
 		<Unit filename="include/KVPair.h" />
 		<Unit filename="include/LinkedList.h" />
 		<Unit filename="include/List.h" />
+		<Unit filename="include/MinHeap.h" />
 		<Unit filename="include/Node.h" />
 		<Unit filename="include/SortedArrayDictionary.h" />
 		<Unit filename="include/SortedArrayList.h" />

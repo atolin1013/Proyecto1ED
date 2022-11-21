@@ -166,7 +166,7 @@ public:
         result->append("\n");
         for(wordFound->lines->goToStart(); !wordFound->lines->atEnd(); wordFound->lines->next()){
                 base->goToPos(wordFound->lines->getElement());
-                rLine += "Línea " +to_string(wordFound->lines->getElement()) + ": "
+                rLine += "Línea " + to_string(wordFound->lines->getElement()) + ": "
                 + base->getElement() + "\n";
                 result->append(rLine);
                 rLine = "";

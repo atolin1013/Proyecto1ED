@@ -155,7 +155,7 @@ int main() {
         "el_quijote.txt", "bible.txt", "lotr.txt", "lmao.txt", "novela.txt", "big.txt", /*6*/
         "loremIpsum.txt" /*7*/
         };
-    int index = 1;
+    int index = 0;
 //    for(int pLine = 100; pLine == 100; pLine = pLine + 1000){
 //        basePrueba(pLine);
 //    }
@@ -179,7 +179,7 @@ int main() {
 //    arbol->printD();
     cout << (float) (stop - start) / CLOCKS_PER_SEC << endl;
     start = clock();
-    arbol->getWordMatches("zurdo", lista)->print();
+    arbol->getWordMatches("evelia", lista)->print();
     stop = clock();
     cout << (float) (stop - start) / CLOCKS_PER_SEC << endl;
 //    lista->goToStart();
