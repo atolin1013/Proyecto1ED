@@ -142,14 +142,8 @@ public:
     List<E>* removeTop(int n){
         List<E>* listaTop = new ArrayList<E>;
         for(int i = 0; i < n; i++){
-            listaTop->append(elements[i]);
+            listaTop->append(removeFirst());
         }
-        for(int i = 0; i < size; i++){
-            elements[i] = elements[i + n];
-        }
-        size -= n;
-        for(int i = size -1; i >= 0; i--)
-            siftDown(i);
         return listaTop;
     }
 };

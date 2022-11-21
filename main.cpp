@@ -231,8 +231,10 @@ int main() {
                                 cin>>cantidad;
                                 List<KVPair<int,string>>* words = topHeap->removeTop(cantidad);
 
-                                for (words->goToStart(); !words->atEnd(); words->next())
+                                for (words->goToStart(); !words->atEnd(); words->next()){
                                     cout << words->getElement()<<endl;
+                                    topHeap->insert(words->getElement());
+                                }
                                 break;
                                 }
                             default:
