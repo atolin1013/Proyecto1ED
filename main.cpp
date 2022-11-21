@@ -119,12 +119,6 @@ void cargar(ArrayList<string>* arrayDestino, Trie* arbolDestino,
             if(filtro(letra) != 0)
                 palabra += letra;
         }
-        if(i == 2500 && arbolDestino->getSize() > 2048){
-            int size = arbolDestino->getSize() / 2500;
-            size *= arraySize;
-            delete topHeap;
-            topHeap = new MaxHeap<KVPair<int, string>>(size);
-        }
         i++;
     }
 }
@@ -155,12 +149,11 @@ int main() {
         while(archivo == ""){
             cout<< "Por favor escriba el nombre del archivo junto con su extension: "; cin>> archivo;
         }
-
+        topHeap = new MaxHeap<KVPair<int, string>>();
+        arbol = new Trie();
         ifstream e(archivo);
         if(getline(e, foo)){
             try{
-                arbol = new Trie();
-                topHeap = new MaxHeap<KVPair<int, string>>();
                 arraySize = getArraySize(archivo, 2500);
                 lista = new ArrayList<string>(arraySize);
                 cargar(lista, arbol, archivo, topHeap, arraySize);
