@@ -47,6 +47,7 @@
 		<Unit filename="include/KVPair.h" />
 		<Unit filename="include/LinkedList.h" />
 		<Unit filename="include/List.h" />
+		<Unit filename="include/MaxHeap.h" />
 		<Unit filename="include/MinHeap.h" />
 		<Unit filename="include/Node.h" />
 		<Unit filename="include/SortedArrayDictionary.h" />

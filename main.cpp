@@ -4,14 +4,15 @@
 #include <time.h>
 #include <chrono>
 #include <windows.h>
+#include <thread>
 
 #include "List.h"
 #include "Trie.h"
 #include "ArrayList.h"
 #include "AVLTreeDictionary.h"
+#include "MaxHeap.h"
 
 using namespace std;
-using namespace std::chrono;
 
 int getArraySize(string archivo, int pLine){
     string line;
@@ -25,8 +26,6 @@ int getArraySize(string archivo, int pLine){
     int file_size = in_file.tellg();
     in_file.close();
     for(i = 1; i <= pLine; i++){
-//        if(i % 4 != 0)
-//            myfile.ignore();
         if(!getline(myfile, line))
             break;
         count += line.length();
@@ -46,32 +45,13 @@ int getArraySizeAux(string archivo){
     return i;
 }
 
-void prueba(string archivo, int pLine){
-
-
-
-    /*
-    el_quijote
-    bible
-    PADRON_COMPLETO
-    bible
-    lmao
-    big
-    novela
-    */
-
-
-
-
-}
-
 char filtro(char letra){
     if(letra < 123){
         if(letra > 96)
             return letra;
         if(letra > 64 && letra < 91)
             return letra + 32;
-        if(letra == 32) // Espacio
+        if(letra == 32 || letra == 45) // Espacio o guión
             return 32;
         return 0;
     }
@@ -117,11 +97,8 @@ void basePrueba(int pLine){
     cout << (long double) (stop - start) / CLOCKS_PER_SEC << endl;
 }
 
-void pToList(Trie* arbol){
-
-}
-
-void cargar(ArrayList<string>* arrayDestino, Trie* arbolDestino, string archivo){
+void cargar(ArrayList<string>* arrayDestino, Trie* arbolDestino,
+            string archivo, MaxHeap<KVPair<int, string>>* topHeap, int arraySize){
     string line;
     int i = 0;
     ifstream myfile(archivo);
@@ -142,50 +119,158 @@ void cargar(ArrayList<string>* arrayDestino, Trie* arbolDestino, string archivo)
             if(filtro(letra) != 0)
                 palabra += letra;
         }
+        if(i == 2500 && arbolDestino->getSize() > 2048){
+            int size = arbolDestino->getSize() / 2500;
+            size *= arraySize;
+            delete topHeap;
+            topHeap = new MaxHeap<KVPair<int, string>>(size);
+        }
         i++;
     }
+}
+
+void cargarHeap(Trie* arbol, MaxHeap<KVPair<int, string>>* topHeap){
+    arbol->loadHeap(topHeap);
 }
 
 int main() {
     setlocale(LC_ALL, "spanish");
     SetConsoleCP(1252);
     SetConsoleOutputCP(1252);
-    string archivos[] = {
-        "C:\\Users\\Marvin\\Desktop\\Cosas de Antony\\Progra 0mg\\Estructura de datos\\PADRON_COMPLETO.txt", /*0*/
-        "el_quijote.txt", "bible.txt", "lotr.txt", "lmao.txt", "novela.txt", "big.txt", /*6*/
-        "loremIpsum.txt" /*7*/
-        };
-    int index = 0;
-//    for(int pLine = 100; pLine == 100; pLine = pLine + 1000){
-//        basePrueba(pLine);
-//    }
-//    for(int e = 0; e < 10; e++)
-//    basePrueba(2500);
-    string archivo = "C:\\Users\\Marvin\\Desktop\\Cosas de Antony\\Progra 0mg\\Estructura de datos\\PADRON_COMPLETO.txt";
-    Trie* arbol = new Trie();
-    clock_t start = clock();
+    Trie* arbol;
     ArrayList<string>* lista;
+    MaxHeap<KVPair<int, string>> *topHeap;
+    int arraySize;
 
-    try{
-        lista = new ArrayList<string>(getArraySize(archivos[index], 2500));
-        cargar(lista, arbol, archivos[index]);
-    } catch(runtime_error&) {
-        delete lista;
-        lista = new ArrayList<string>(getArraySizeAux(archivos[index]));
-        cargar(lista, arbol, archivos[index]);
-    };
+    int opc =0;
+    int opc2 =0;
+    //mensaje de bienvenida
+    cout <<"Bienvenidos al programa de indizacion de textos " << endl;
+    cout <<"Nos complace mucho tenerlo por acá " << endl;
+    string archivo;
+    string foo;
+    while(true){
+        opc = 0;
+        archivo = "";
+        while(archivo == ""){
+            cout<< "Por favor escriba el nombre del archivo junto con su extension: "; cin>> archivo;
+        }
 
-    clock_t stop = clock();
-//    arbol->printD();
-    cout << (float) (stop - start) / CLOCKS_PER_SEC << endl;
-    start = clock();
-    arbol->getWordMatches("evelia", lista)->print();
-    stop = clock();
-    cout << (float) (stop - start) / CLOCKS_PER_SEC << endl;
-//    lista->goToStart();
-//    for(int i = 0; i < 100; i++){
-//        cout << lista->getElement() << endl;
-//        lista->next();
-//    }
+        ifstream e(archivo);
+        if(getline(e, foo)){
+            try{
+                arbol = new Trie();
+                topHeap = new MaxHeap<KVPair<int, string>>();
+                arraySize = getArraySize(archivo, 2500);
+                lista = new ArrayList<string>(arraySize);
+                cargar(lista, arbol, archivo, topHeap, arraySize);
+            } catch(runtime_error&) {
+                delete lista;
+                arraySize = getArraySizeAux(archivo);
+                lista = new ArrayList<string>(arraySize);
+                cargar(lista, arbol, archivo, topHeap, arraySize);
+            };
+            thread top(cargarHeap, arbol, topHeap);
+
+            //MAIN
+            while(opc != 5)
+            {
+                opc = 0;
+                opc2 = 0;
+                cout <<"\n\n1. Consulta por prefijo" << endl;
+                cout <<"2. Buscar palabra" << endl;
+                cout <<"3. Buscar por cantidad de letras" << endl;
+                cout <<"4. Palabras mas utilizadas" << endl;
+                cout <<"5. Cargar nuevo archivo" << endl
+                    << "6. Salir" << endl;
+                cout<< "Digita la opcion a realizar: ";
+                cin >>opc;
+                switch(opc)
+                {
+                    case 1:
+                        {
+                        cout <<"Ingresa un prefijo para buscar en el arbol" << endl;
+                        string prefijo = "";
+                        cin >>prefijo;
+                        List<string> *palabras = arbol->getMatches(prefijo, lista);
+
+                        palabras->print();
+
+                        delete palabras;
+                        }
+                        break;
+                    case 2:
+                        {
+
+                        cout <<"Ingresa la palabra a buscar" << endl;
+                        string palabra = "";
+                        cin >>palabra;
+                        arbol->getWordMatches(palabra, lista)->print();
+                        }
+                        break;
+                    case 3: //Buscar por Cantidad letras
+                        {
+                        cout <<"Ingresa un entero" << endl;
+                        int entero = 0;
+                        cin >>entero;
+                            List<string> *words = arbol->getMatches(entero);//
+                            //lines
+                            cout << "[ ";
+                            for (words->goToStart(); !words->atEnd(); words->next())
+                            cout << words->getElement()<<"\n" <<endl;
+                            cout << "]" << endl;
+                        } break;
+                    case 4://Palabras mas utilizadas
+                        {
+                        cout <<"1. Ver top" << endl;
+                        cout <<"2. Regresar al menu principal" << endl;
+                        cin >>opc2;
+                        string palabra = "";
+                        if(top.joinable()){
+                            top.join();
+                        }
+                        switch(opc2)
+                        {
+                            case 1:
+                                {
+                                cout <<"Ingresa la cantidad de elementos" << endl;
+                                int cantidad = 0;
+                                cin>>cantidad;
+                                List<KVPair<int,string>>* words = topHeap->removeTop(cantidad);
+
+                                for (words->goToStart(); !words->atEnd(); words->next())
+                                    cout << words->getElement()<<endl;
+                                break;
+                                }
+                            default:
+                                break;
+                            break;
+                        }
+                        break;
+                    }
+                    case 5:
+                        {
+                            delete arbol;
+                            delete lista;
+                            delete topHeap;
+                            break;
+                        }
+                    case 6:{
+                        if(top.joinable()){
+                            top.join();
+                        }
+                        return 0;
+                    }
+                    default:  cout <<"Opción fuera de rango, por favor escriba una nueva opción" << endl;
+                }
+
+            }
+            if(top.joinable()){
+                top.join();
+            }
+        } else {
+            cout << "Archivo introducido es inválido" << endl;
+        }
+    }
     return 0;
 }

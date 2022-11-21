@@ -1,7 +1,7 @@
 #ifndef TRIENODE_H
 #define TRIENODE_H
 
-#include "AVLTreeDictionary.h"
+#include "BSTDictionary.h"
 #include "List.h"
 #include "LinkedList.h"
 
@@ -15,7 +15,7 @@ public:
     TrieNode() {
         prefixCount = 0;
         isFinal = false;
-        children = new AVLTreeDictionary<char, TrieNode*>();
+        children = new BSTDictionary<char, TrieNode*>();
     }
     ~TrieNode() {
         delete children;

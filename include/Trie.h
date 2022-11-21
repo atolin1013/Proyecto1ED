@@ -3,6 +3,7 @@
 
 #include "TrieNode.h"
 #include "ArrayList.h"
+#include "MaxHeap.h"
 #include <string>
 #include <iostream>
 #include <stdexcept>
@@ -43,8 +44,8 @@ private:
         string prefixResult = "\n\n";
         if (current->isFinal){
             prefixResult += prefix;
-            prefixResult += ": ";
-            prefixResult += to_string(current->lines->getSize());
+            prefixResult += " aparece: ";
+            prefixResult += to_string(current->lines->getSize()) + " veces";
             for(int i = 0; i < current->lines->getSize(); i++){
                 current->lines->goToPos(i);
                 base->goToPos(current->lines->getElement());
@@ -58,6 +59,20 @@ private:
             char c = children->getElement();
             string newPrefix = prefix + c;
             getMatchesAux(current->getChild(c), newPrefix, result, base);
+        }
+        delete children;
+    }
+    void loadHeapAux(TrieNode *current, MaxHeap<KVPair<int, string>>* heapDestino, string prefix) {
+        if (current->isFinal){
+            KVPair<int, string> p(current->lines->getSize(), prefix);
+            heapDestino->insert(p);
+        }
+
+        List<char> *children = current->getChildren();
+        for (children->goToStart(); !children->atEnd(); children->next()) {
+            char c = children->getElement();
+            string newPrefix = prefix + c;
+            loadHeapAux(current->getChild(c), heapDestino, newPrefix);
         }
         delete children;
     }
@@ -174,6 +189,31 @@ public:
 
         return result;
     }
+       List<string>* getMatches(int size) {
+        List<string> *words = new DLinkedList<string>();
+        TrieNode *current = root;
+        List<TrieNode*>* nodes =  current->getChildrenPointers();
+        for (words->goToStart(); !words->atEnd(); words->next()){
+            current = nodes->getElement();
+
+        }
+        getMatchesAux3(current, "", words,size);
+        return words;
+    }
+
+    void getMatchesAux3(TrieNode *current, string prefix, List<string> *words,int size) {
+        if (current->isFinal && (int) prefix.length() == size)
+            words->append(prefix);
+        List<char> *children = current->getChildren();
+
+        for (children->goToStart(); !children->atEnd(); children->next()) {
+            string newPrefix = prefix;
+            char c = children->getElement();
+            newPrefix.append(1, c);
+            getMatchesAux3(current->getChild(c), newPrefix, words,size);
+        }
+        delete children;
+    }
     int getSize() {
         return root->prefixCount;
     }
@@ -187,6 +227,12 @@ public:
         List<string> *words = getMatches("", base);
         words->print();
         delete words;
+    }
+    void loadHeap(MaxHeap<KVPair<int, string>>* heapDestino){
+        TrieNode *current = findNode("");
+        if (current != nullptr) {
+            loadHeapAux(current, heapDestino, "");
+        }
     }
 };
 
